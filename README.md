@@ -62,3 +62,62 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+<!-- my own comments that i need you to work on  -->
+# require Backpack using Composer
+composer require backpack/crud:"^5.0"
+composer require --dev backpack/generators
+
+# run the installation command
+php artisan backpack:install 
+
+# STEP 0. create migration (in case you're starting from scratch)
+composer require --dev laracasts/generators
+php artisan make:migration:schema create_contacts_table --model=0 
+<!-- use the following code in the contact migration file before you run the migration -->
+<!-- 
+
+public function up()
+    {
+        Schema::disableForeignKeyConstraints();
+
+        Schema::create('contacts', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('name');
+            $table->string('email');
+            $table->string('subject')->nullable();
+            $table->string('message');
+            $table->timestamps();
+        });
+        Schema::enableForeignKeyConstraints();
+    }
+ -->
+php artisan migrate
+
+# STEP 1. create a Model, Request, Controller, Route and sidebar item for the admin panel
+php artisan backpack:crud contact #use singular, not plural
+<!-- 
+beleow is the code to place in the controller
+  public function store(Request $request)
+    {
+        //
+        
+        $this->validate($request, [
+            'name' => 'required|max:255',
+            'email' => 'required|max:255',
+            'subject' => 'required|max:255',
+            'message' => 'required|max:255',
+        ]);
+        $contact = Contact::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'subject' => $request->subject,
+            'message' => $request->message,
+        ]);       
+        $contact->save();
+        return back()->with('success','Message sent successfully!');
+    }
+ -->
+# STEP 2. go through the generated files, customize according to your needs
+
+<!-- end of my comments thanks-->
