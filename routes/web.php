@@ -23,7 +23,9 @@ use Illuminate\Support\Facades\Route;
 // });
 Route::get('/',[indexController::class,'index'])->name('index');
 Route::get('/about',[aboutController::class,'about'])->name('about');
-Route::get('/contact',[contactController::class,'contact'])->name('contact');
+Route::get('/contact',[contactController::class,'index'])->name('contact');
+Route::post('/contact',[contactController::class,'store'])->name('contact');
+
 Route::get('/team',[teamController::class,'team'])->name('team');
 Route::get('/preamble',[preambleController::class,'preamble'])->name('preamble');
 
